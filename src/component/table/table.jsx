@@ -40,7 +40,7 @@ export function ComponentTable(props) {
     }]
   return (
     <div className="col-auto">
-      <Table bordered table-responsive striped hover variant="dark">
+      <Table bordered table-responsive striped hover >
         <thead>
           <tr>
             {columns.map(c=>{
