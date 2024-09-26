@@ -6,6 +6,7 @@ import React from 'react';
 
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import { ComponentTable } from './component/table/table';
+import ComponentMap from './component/map/map';
 function App() {
   const [data,setData]=React.useState([]);
   const [loading,setLoading]=React.useState(true)
@@ -22,7 +23,7 @@ function App() {
 },[])
   return (
     <div>
-
+        <ComponentMap data={data} loading={loading}></ComponentMap>
         <ComponentTable data={data} loading={loading}></ComponentTable>
     </div>
   );

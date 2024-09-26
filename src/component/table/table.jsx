@@ -70,7 +70,7 @@ export function ComponentTable(props) {
         </thead>
         <tbody>
             
-            {loading?"loading": getDataToPaganation()[indxPagination].map(c=>{
+            {loading?<tr><td colSpan={10}>Loading...</td></tr>: getDataToPaganation()[indxPagination].map(c=>{
              
                 
                 
