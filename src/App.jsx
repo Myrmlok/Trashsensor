@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import { ComponentMap } from './component/map/map';
+
 import axios from "axios";
 import React from 'react';
-import { ComponentTable } from './component/table/table';
+
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import { ComponentTable } from './component/table/table';
 function App() {
   const [data,setData]=React.useState([]);
   const [loading,setLoading]=React.useState(true)
@@ -21,7 +22,7 @@ function App() {
 },[])
   return (
     <div>
-        <ComponentMap data={data} loading={loading}></ComponentMap>
+
         <ComponentTable data={data} loading={loading}></ComponentTable>
     </div>
   );

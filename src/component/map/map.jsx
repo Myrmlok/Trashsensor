@@ -1,7 +1,7 @@
 import React from "react";
 
 import { YMaps,Map, Placemark } from '@pbe/react-yandex-maps';
-export function ComponentMap(props) {
+export default function ComponentMap(props) {
     const data=props.data.sort(c=>c.id);
 
     const repeatIds=[];

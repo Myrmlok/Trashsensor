@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import "react-bootstrap/dist/react-bootstrap.min.js.LICENSE.txt"
 import Table from 'react-bootstrap/Table'
-
+import { Pagination } from "react-bootstrap";
 
 export function ComponentTable(props) {
     const data=props.data;
-    const loading=props.loading
+    const loading=props.loading;
+    const [indxPagination,setIndexPagination]=useState(0)
+    let countPagination=indxPagination
+    const countRows=7;
+    const dataToPaganation=[];
+    for(let i=0;i<data.lenght;i+=countRows){
+        dataToPaganation.push(i,i+countRows)
+    }
     const columns=[{
       dataField:'id',
       text:'ID'
@@ -49,8 +56,8 @@ export function ComponentTable(props) {
           </tr>
         </thead>
         <tbody>
-       
-            {data.map(c=>{
+        
+            {dataToPaganation[indxPagination].map(c=>{
               return <tr>
                 <td>{c.id}</td>
                 <td valign="center">{c.name}</td>
@@ -62,9 +69,17 @@ export function ComponentTable(props) {
                 <td valign="center">{c.timeAt}</td>
                 </tr>
             })}
-          
+        
         </tbody>
       </Table>
+      <Pagination>
+        {
+          dataToPaganation.map(()=>{
+            countPagination+=1;
+            return <Pagination.Item>{countPagination}</Pagination.Item>
+          })
+        }
+      </Pagination>
     </div>
   );
 }
