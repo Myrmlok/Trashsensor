@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import "react-bootstrap/dist/react-bootstrap.min.js.LICENSE.txt"
 import Table from 'react-bootstrap/Table'
 import { Pagination } from "react-bootstrap";
-
 export function ComponentTable(props) {
     const data=props.data;
-    const loading=props.loading;
-    const [indxPagination,setIndexPagination]=useState(0)
-    let countPagination=indxPagination
+    const loading=props.loading
+    const [indxPagination,setIndexPagination]=React.useState(0)
+   
     const countRows=7;
-    const dataToPaganation=[];
-    for(let i=0;i<data.lenght;i+=countRows){
-        dataToPaganation.push(i,i+countRows)
+    let count=1;
+    const itemsPagination=[];
+    let getDataToPaganation=()=> {
+      let dataToPaganation=[]
+      for(let i=0;i<=data.length;i+=countRows){
+        dataToPaganation.push(data.slice(i,i+countRows))
+        
+      }
+
+      return dataToPaganation;
+    }
+    for (let i=0;i<Math.floor(data.length/countRows);i++){
+        itemsPagination.push(
+            <Pagination.Item key={i} active={i===indxPagination} onClick={()=>setIndexPagination(i)}
+            >{i+1}
+            </Pagination.Item>
+        )
     }
     const columns=[{
       dataField:'id',
@@ -56,8 +69,11 @@ export function ComponentTable(props) {
           </tr>
         </thead>
         <tbody>
-        
-            {dataToPaganation[indxPagination].map(c=>{
+            
+            {loading?"loading": getDataToPaganation()[indxPagination].map(c=>{
+             
+                
+                
               return <tr>
                 <td>{c.id}</td>
                 <td valign="center">{c.name}</td>
@@ -73,12 +89,7 @@ export function ComponentTable(props) {
         </tbody>
       </Table>
       <Pagination>
-        {
-          dataToPaganation.map(()=>{
-            countPagination+=1;
-            return <Pagination.Item>{countPagination}</Pagination.Item>
-          })
-        }
+            {itemsPagination}
       </Pagination>
     </div>
   );
