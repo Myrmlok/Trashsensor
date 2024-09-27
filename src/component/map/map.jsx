@@ -5,7 +5,7 @@ export default function ComponentMap(props) {
     const data=props.data.sort(c=>c.id);
 
     const repeatIds=[];
-  return (<div>
+  return (<div className="component">
     
     <YMaps>
       <Map defaultState={{ center: [47.203948, 38.943917],zoom:13}}>

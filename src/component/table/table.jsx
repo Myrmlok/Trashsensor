@@ -2,6 +2,7 @@ import React from "react";
 import "react-bootstrap/dist/react-bootstrap.min.js.LICENSE.txt"
 import Table from 'react-bootstrap/Table'
 import { Pagination } from "react-bootstrap";
+import { PiSquareLogoFill } from "react-icons/pi";
 export function ComponentTable(props) {
     const data=props.data;
     const loading=props.loading
@@ -21,8 +22,9 @@ export function ComponentTable(props) {
     }
     for (let i=0;i<Math.floor(data.length/countRows);i++){
         itemsPagination.push(
-            <Pagination.Item key={i} active={i===indxPagination} onClick={()=>setIndexPagination(i)}
-            >{i+1}
+            <Pagination.Item key={i} aria-current={true} active={i===indxPagination}
+            onClick={()=>setIndexPagination(i)}>
+              {i+1}
             </Pagination.Item>
         )
     }
@@ -59,22 +61,23 @@ export function ComponentTable(props) {
       text:'Время обновления'
     }]
   return (
-    <div className="col-auto">
-      <Table bordered table-responsive striped hover >
+    <div >
+      <Table  bordered table-responsive striped hover >
         <thead>
           <tr>
+            <th><PiSquareLogoFill></PiSquareLogoFill></th>
             {columns.map(c=>{
               return <th> {c.text}</th>
             })}
           </tr>
         </thead>
         <tbody>
-            
             {loading?<tr><td colSpan={10}>Loading...</td></tr>: getDataToPaganation()[indxPagination].map(c=>{
              
                 
                 
               return <tr>
+                <td><input type="checkbox" name="" id="" /></td>
                 <td>{c.id}</td>
                 <td valign="center">{c.name}</td>
                 <td valign="center">{c.address}</td>
@@ -88,8 +91,27 @@ export function ComponentTable(props) {
         
         </tbody>
       </Table>
-      <Pagination>
+      <Pagination >
+      <Pagination.Prev onClick={()=>{
+              if(indxPagination>0){
+                setIndexPagination(indxPagination-1)
+              }
+              else{
+                setIndexPagination(itemsPagination.length-1);
+              }
+            }}>
+              
+            </Pagination.Prev>
             {itemsPagination}
+            <Pagination.Next onClick={()=>{
+              if(indxPagination<itemsPagination.length-1){
+                setIndexPagination(indxPagination+1)
+              }
+              else{
+                setIndexPagination(0)
+              }
+            }}></Pagination.Next>
+           
       </Pagination>
     </div>
   );

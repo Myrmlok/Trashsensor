@@ -22,9 +22,12 @@ function App() {
     setLoading(false);
 },[])
   return (
-    <div>
-        <ComponentMap data={data} loading={loading}></ComponentMap>
+    <div className='mainDiv'>
+      <h1 className="header">Инфомационная система "Trashsensor"</h1>
+      <div className="componentsDiv">
         <ComponentTable data={data} loading={loading}></ComponentTable>
+        <ComponentMap data={data} loading={loading}></ComponentMap>
+      </div>
     </div>
   );
 }
