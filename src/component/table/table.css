@@ -1,3 +1,7 @@
 .componentTable{
-    width: 100vw;
+    width: 70vw;
+    max-width:600px;
+    min-width: 320px;
+    height: 90vh;
+    font-size: 12px;
 }

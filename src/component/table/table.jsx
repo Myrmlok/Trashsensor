@@ -3,6 +3,7 @@ import "react-bootstrap/dist/react-bootstrap.min.js.LICENSE.txt"
 import Table from 'react-bootstrap/Table'
 import { Pagination } from "react-bootstrap";
 import { PiSquareLogoFill } from "react-icons/pi";
+import "./table.css"
 export function ComponentTable(props) {
     const data=props.data;
     const loading=props.loading
@@ -61,8 +62,8 @@ export function ComponentTable(props) {
       text:'Время обновления'
     }]
   return (
-    <div >
-      <Table  bordered table-responsive striped hover >
+    <div className="componentTable">
+      <Table   bordered table-responsive  hover >
         <thead>
           <tr>
             <th><PiSquareLogoFill></PiSquareLogoFill></th>

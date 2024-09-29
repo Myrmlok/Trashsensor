@@ -1,14 +1,15 @@
 import React from "react";
 
 import { YMaps,Map, Placemark } from '@pbe/react-yandex-maps';
+import "./map.css"
 export default function ComponentMap(props) {
     const data=props.data.sort(c=>c.id);
 
     const repeatIds=[];
   return (<div className="component">
     
-    <YMaps>
-      <Map defaultState={{ center: [47.203948, 38.943917],zoom:13}}>
+    <YMaps >
+      <Map defaultState={{ center: [47.203948, 38.943917],zoom:13}} className="componentMap">
         { data.map(c=>{
           if(repeatIds.includes( c.id)){
             return null;
