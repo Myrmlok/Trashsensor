@@ -21,3 +21,12 @@
 .component{
   width: 60%;
 }
+@media screen and (max-width: 768px) {
+  .componentsDiv{
+    height: 200vh;
+    display: flex;
+
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+}
