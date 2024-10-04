@@ -95,6 +95,7 @@ export function ComponentTable(props) {
       <Pagination >
       <Pagination.Prev onClick={()=>{
               if(indxPagination>0){
+                
                 setIndexPagination(indxPagination-1)
               }
               else{

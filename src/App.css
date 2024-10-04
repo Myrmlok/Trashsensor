@@ -3,14 +3,14 @@
 }
 .componentsDiv{
   width: 100%;
-  height: 80vh;
+  height: 60vh;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   padding: 10px;
 }
 .mainDiv{
   width: 100%;
-  height: 90vh;
+  height: 80vh;
   
 }
 .header{

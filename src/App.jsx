@@ -14,12 +14,13 @@ function App() {
     const load=async()=>{
         await axios.get("https://trash.skbkit.ru/api/now").then(answer=>{
             setData(answer.data);
+            setLoading(false);
         }).catch(ex=>{
             console.log(ex);
         })
     }
     load();
-    setLoading(false);
+
 },[])
   return (
     <div className='mainDiv'>
