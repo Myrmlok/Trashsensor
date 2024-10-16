@@ -1,13 +1,13 @@
-.componentTable{
-    width: 70vw;
-    max-width:600px;
-    min-width: 320px;
-    height: 85vh;
-    font-size: 12px;
-}
-@media screen and (max-width: 768px) {
+
+@media screen and (max-width: 1024px) {
    .componentTable{
      width: 100vw;
-     
+     max-width:600px;
+     min-width: 320px;
+     height: 100vh;
+     font-size: 12px;
     }
+}
+.selected{
+    background-color: #f5f5f5;
 }

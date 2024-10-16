@@ -8,7 +8,16 @@ export function ComponentTable(props) {
     const data=props.data;
     const loading=props.loading
     const [indxPagination,setIndexPagination]=React.useState(0)
-   
+    const [idsSelected,setIndexSelected]=React.useState([]);
+    function addOrRemoveSelected(indx){
+      if(!idsSelected.includes(indx)){
+      
+        setIndexSelected([...idsSelected,indx])
+      }
+      else{
+        setIndexSelected( idsSelected.filter(c=>c!=indx));
+      }
+    }
     const countRows=7;
     let count=1;
     const itemsPagination=[];
@@ -63,7 +72,7 @@ export function ComponentTable(props) {
     }]
   return (
     <div className="componentTable">
-      <Table   bordered table-responsive  hover >
+      <Table   bordered table-responsive   >
         <thead>
           <tr>
             <th><PiSquareLogoFill></PiSquareLogoFill></th>
@@ -74,11 +83,10 @@ export function ComponentTable(props) {
         </thead>
         <tbody>
             {loading?<tr><td colSpan={10}>Loading...</td></tr>: getDataToPaganation()[indxPagination].map(c=>{
-             
-                
-                
-              return <tr>
-                <td><input type="checkbox" name="" id="" /></td>
+              return <tr className={idsSelected.includes(c.id)?"selected":""}>
+                <td><input type="checkbox" checked={idsSelected.includes(c.id)} onChange={()=>{
+                  addOrRemoveSelected(c.id);}
+                }  name="" id="" /></td>
                 <td>{c.id}</td>
                 <td valign="center">{c.name}</td>
                 <td valign="center">{c.address}</td>
