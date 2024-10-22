@@ -20,7 +20,16 @@
   width: 50vw;
   max-width: 40vw;
 }
-
+@media screen and(max-width:450px) {
+  .componentsDiv{
+    width: 627.31;
+    height: 215vh;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+  
+}
 @media screen and (max-width: 1024px) {
   .header{
     width: 100%;
@@ -29,6 +38,7 @@
   font-size:larger;
   }
   .componentsDiv{
+    width: 100vw;
     height: 215vh;
     display: flex;
     flex-direction: column-reverse;

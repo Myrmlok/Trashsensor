@@ -100,6 +100,7 @@ export function ComponentTable(props) {
         
         </tbody>
       </Table>
+      <div className="componentPagination">
       <Pagination >
       <Pagination.Prev onClick={()=>{
               if(indxPagination>0){
@@ -123,6 +124,7 @@ export function ComponentTable(props) {
             }}></Pagination.Next>
            
       </Pagination>
+      </div>
     </div>
   );
 }
