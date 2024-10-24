@@ -1,39 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import "react-bootstrap/dist/react-bootstrap.min.js.LICENSE.txt"
 import Table from 'react-bootstrap/Table'
 import { Pagination } from "react-bootstrap";
 import { PiSquareLogoFill } from "react-icons/pi";
 import "./table.css"
+import axios from "axios";
 export function ComponentTable(props) {
+    const breakpoint=1024;
     const data=props.data;
-    const loading=props.loading
+    const [loading,setLoading]=React.useState(true);
+    const dataLenght =props.dataLenght;
     const [indxPagination,setIndexPagination]=React.useState(0)
-    const [idsSelected,setIndexSelected]=React.useState([]);
+    const idsSelected=props.indxesChecked;
+    const [width, setWidth] = React.useState(window.innerWidth);
+    const [countTableTrs,setCountTableTrs]=React.useState(7);
+    
+    React.useEffect(() => {
+   const handleResizeWindow = () => setWidth(window.innerWidth);
+    
+    window.addEventListener("resize", handleResizeWindow);
+    return () => {        
+
+      window.removeEventListener("resize", handleResizeWindow);
+    };
+  }, []);
     function addOrRemoveSelected(indx){
       if(!idsSelected.includes(indx)){
-      
-        setIndexSelected([...idsSelected,indx])
+       props.setIndexChecked([...idsSelected,indx])
       }
       else{
-        setIndexSelected( idsSelected.filter(c=>c!=indx));
+        props.setIndexChecked( idsSelected.filter(c=>c!=indx));
       }
     }
-    const countRows=7;
-    let count=1;
     const itemsPagination=[];
-    let getDataToPaganation=()=> {
-      let dataToPaganation=[]
-      for(let i=0;i<=data.length;i+=countRows){
-        dataToPaganation.push(data.slice(i,i+countRows))
-        
+    let getDataToPaganation=(i)=> {
+      let load=async()=>{
+         await axios.get(`https://trash.skbkit.ru/api/now?_start=${i}&_end=${i+1}&_sort=createdAt&_order=ASC`).then(c=>{
+           props.setData(c.data);
+           props.setLoading(true);
+         }).catch(er=>{console.log(er)})
       }
-
-      return dataToPaganation;
+      load();
+      setLoading(false);
     }
-    for (let i=0;i<Math.floor(data.length/countRows);i++){
+  
+    for (let i=0;i<Math.floor(dataLenght/countTableTrs);i++){
         itemsPagination.push(
-            <Pagination.Item key={i} aria-current={true} active={i===indxPagination}
-            onClick={()=>setIndexPagination(i)}>
+            <Pagination.Item key={i} aria-current={false} active={i===indxPagination}
+            onClick={()=>{
+              setIndexPagination(i)
+              getDataToPaganation(i);
+            }}>
               {i+1}
             </Pagination.Item>
         )
@@ -82,7 +99,7 @@ export function ComponentTable(props) {
           </tr>
         </thead>
         <tbody>
-            {loading?<tr><td colSpan={10}>Loading...</td></tr>: getDataToPaganation()[indxPagination].map(c=>{
+            {loading?<tr><td colSpan={10}>Loading...</td></tr>:data.map(c=>{
               return <tr className={idsSelected.includes(c.id)?"selected":""}>
                 <td><input type="checkbox" checked={idsSelected.includes(c.id)} onChange={()=>{
                   addOrRemoveSelected(c.id);}
@@ -104,23 +121,30 @@ export function ComponentTable(props) {
       <Pagination >
       <Pagination.Prev onClick={()=>{
               if(indxPagination>0){
-                
+                getDataToPaganation(indxPagination-1)
                 setIndexPagination(indxPagination-1)
+                
               }
               else{
+                getDataToPaganation(itemsPagination.length-1)
                 setIndexPagination(itemsPagination.length-1);
               }
+             
             }}>
               
             </Pagination.Prev>
             {itemsPagination}
             <Pagination.Next onClick={()=>{
               if(indxPagination<itemsPagination.length-1){
+                getDataToPaganation(indxPagination+1);
                 setIndexPagination(indxPagination+1)
+                
               }
               else{
+                getDataToPaganation(0);
                 setIndexPagination(0)
               }
+              
             }}></Pagination.Next>
            
       </Pagination>

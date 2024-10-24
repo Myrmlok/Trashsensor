@@ -19,11 +19,12 @@
 .component{
   width: 50vw;
   max-width: 40vw;
+  height: 50%;
 }
 @media screen and(max-width:450px) {
   .componentsDiv{
     width: 627.31;
-    height: 215vh;
+    height: 200vh;
     display: flex;
     flex-direction: column-reverse;
     justify-content: flex-end;
