@@ -4,7 +4,7 @@ import { YMaps,Map, Placemark } from '@pbe/react-yandex-maps';
 import "./map.css"
 export default function ComponentMap(props) {
     const data=props.data.sort(c=>c.id);
-
+    const indxesVisiblePlacemark=props.indxesVisiblePlacemark;
     const repeatIds=[];
   return (<div className="component">
     
@@ -18,6 +18,17 @@ export default function ComponentMap(props) {
           var repeatPonts=data.filter(x=>x.lat===c.lat&&x.lng===c.lng).sort(x=>x.id);
           var count=0;
           return  <Placemark
+          instanceRef={ref => {
+            if(indxesVisiblePlacemark.includes(c.id)){
+              ref && ref.balloon.open();
+            }
+            ref.balloon.events("close",()=>{
+              props.setVisiblePlacemark(indxesVisiblePlacemark.filter(el=>el!=c.id));
+            })
+            ref.balloon.events("open",()=>{
+              props.setVisiblePlacemark([...indxesVisiblePlacemark,c.id]);
+            })
+          }}
           modules={["geoObject.addon.balloon"]}
            key={c.id} defaultGeometry={[c.lat, c.lng]} properties={{
             balloonContentBody:`<div>
@@ -34,7 +45,7 @@ export default function ComponentMap(props) {
             }
             </div>
             </div>`
-          }} ></Placemark>
+          }}></Placemark>
         })}
       </Map>
   </YMaps>

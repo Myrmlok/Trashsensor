@@ -15,14 +15,16 @@ function App() {
   React.useEffect(()=>{
     const load=async()=>{
         await axios.get("https://trash.skbkit.ru/api/now").then(answer=>{
-            setData(answer.data);
             setDataLenght(answer.data.length);
         }).catch(ex=>{
             console.log(ex);
         })
+        await axios.get(`https://trash.skbkit.ru/api/now?_start=${0}&_end=${1}&_sort=createdAt&_order=ASC`).then(c=>{
+          setData(c.data);
+        }).catch(er=>{console.log(er)})
     }
     load();
-
+    setLoading(false);
 },[])
   return (
     <div className='mainDiv'>

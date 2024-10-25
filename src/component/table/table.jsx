@@ -6,24 +6,12 @@ import { PiSquareLogoFill } from "react-icons/pi";
 import "./table.css"
 import axios from "axios";
 export function ComponentTable(props) {
-    const breakpoint=1024;
     const data=props.data;
-    const [loading,setLoading]=React.useState(true);
+    const [loading,setLoading]=React.useState(props.loading);
     const dataLenght =props.dataLenght;
     const [indxPagination,setIndexPagination]=React.useState(0)
     const idsSelected=props.indxesChecked;
-    const [width, setWidth] = React.useState(window.innerWidth);
     const [countTableTrs,setCountTableTrs]=React.useState(7);
-    
-    React.useEffect(() => {
-   const handleResizeWindow = () => setWidth(window.innerWidth);
-    
-    window.addEventListener("resize", handleResizeWindow);
-    return () => {        
-
-      window.removeEventListener("resize", handleResizeWindow);
-    };
-  }, []);
     function addOrRemoveSelected(indx){
       if(!idsSelected.includes(indx)){
        props.setIndexChecked([...idsSelected,indx])
@@ -43,7 +31,6 @@ export function ComponentTable(props) {
       load();
       setLoading(false);
     }
-  
     for (let i=0;i<Math.floor(dataLenght/countTableTrs);i++){
         itemsPagination.push(
             <Pagination.Item key={i} aria-current={false} active={i===indxPagination}
@@ -99,7 +86,7 @@ export function ComponentTable(props) {
           </tr>
         </thead>
         <tbody>
-            {loading?<tr><td colSpan={10}>Loading...</td></tr>:data.map(c=>{
+            {data.length<7?<tr><td colSpan={10}>Loading...</td></tr>:data.map(c=>{
               return <tr className={idsSelected.includes(c.id)?"selected":""}>
                 <td><input type="checkbox" checked={idsSelected.includes(c.id)} onChange={()=>{
                   addOrRemoveSelected(c.id);}
