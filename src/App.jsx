@@ -16,12 +16,10 @@ function App() {
     const load=async()=>{
         await axios.get("https://trash.skbkit.ru/api/now").then(answer=>{
             setDataLenght(answer.data.length);
+            setData(answer.data.slice(0,7));
         }).catch(ex=>{
             console.log(ex);
         })
-        await axios.get(`https://trash.skbkit.ru/api/now?_start=${0}&_end=${1}&_sort=createdAt&_order=ASC`).then(c=>{
-          setData(c.data);
-        }).catch(er=>{console.log(er)})
     }
     load();
     setLoading(false);

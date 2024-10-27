@@ -5,28 +5,29 @@ import "./map.css"
 export default function ComponentMap(props) {
     const data=props.data.sort(c=>c.id);
     const indxesVisiblePlacemark=props.indxesVisiblePlacemark;
+    const setVisiblePlacemark=props.setVisiblePlacemark;
     const repeatIds=[];
   return (<div className="component">
     
     <YMaps >
       <Map defaultState={{ center: [47.203948, 38.943917],zoom:13}} className="componentMap">
         { data.map(c=>{
-          if(repeatIds.includes( c.id)){
-            return null;
-          }
-          else
           var repeatPonts=data.filter(x=>x.lat===c.lat&&x.lng===c.lng).sort(x=>x.id);
           var count=0;
           return  <Placemark
           instanceRef={ref => {
             if(indxesVisiblePlacemark.includes(c.id)){
               ref && ref.balloon.open();
+              
             }
-            ref.balloon.events("close",()=>{
-              props.setVisiblePlacemark(indxesVisiblePlacemark.filter(el=>el!=c.id));
-            })
-            ref.balloon.events("open",()=>{
-              props.setVisiblePlacemark([...indxesVisiblePlacemark,c.id]);
+            ref &&ref.balloon.events.add("close",()=>{
+                let count=0;
+                for(let el in repeatPonts){
+                  if(indxesVisiblePlacemark.includes(el)){
+                    count=count+1;
+                  }
+                }
+                console.log(count);
             })
           }}
           modules={["geoObject.addon.balloon"]}
@@ -40,7 +41,7 @@ export default function ComponentMap(props) {
                 repeatPonts.map(x=>{
                   repeatIds.push(x.id)
                     count+=1
-                    return `<div>Наполненность ${repeatPonts.lenght==1?null:`контейнер${x.id}`}:${x.percent}%</div>`
+                    return (indxesVisiblePlacemark.includes(x.id)?`<div>Наполненность ${repeatPonts.lenght==1?null:`контейнер${x.id}`}:${x.percent}%</div>`:null)
                 }).join('')
             }
             </div>
