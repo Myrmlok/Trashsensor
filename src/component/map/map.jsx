@@ -12,22 +12,28 @@ export default function ComponentMap(props) {
     <YMaps >
       <Map defaultState={{ center: [47.203948, 38.943917],zoom:13}} className="componentMap">
         { data.map(c=>{
-          var repeatPonts=data.filter(x=>x.lat===c.lat&&x.lng===c.lng).sort(x=>x.id);
-          var count=0;
+          let repeatPonts=data.filter(x=>x.lat===c.lat&&x.lng===c.lng).sort(x=>x.id);
+          if(repeatIds.includes(c.id)){
+            return null;
+          } 
           return  <Placemark
           instanceRef={ref => {
-            if(indxesVisiblePlacemark.includes(c.id)){
-              ref && ref.balloon.open();
-              
+            let flag=true;
+            for(let i=0;i<repeatPonts.length;i++){
+              if(indxesVisiblePlacemark.includes(repeatPonts[i].id)){
+                flag=false;
+                ref &&ref.balloon.open();
+                return;
+              }
             }
-            ref &&ref.balloon.events.add("close",()=>{
-                let count=0;
-                for(let el in repeatPonts){
-                  if(indxesVisiblePlacemark.includes(el)){
-                    count=count+1;
-                  }
-                }
-                console.log(count);
+            if(flag && ref &&ref.balloon.isOpen()){
+              ref && ref.balloon.close();
+            }
+            ref && ref.events.add("click",()=>{
+              setVisiblePlacemark([...indxesVisiblePlacemark,...repeatPonts.map(el=>el.id)]);
+            })
+            ref && ref.balloon.events.add("close",()=>{
+              setVisiblePlacemark(indxesVisiblePlacemark.filter(c=>!repeatPonts.some(el=>el.id==c)));
             })
           }}
           modules={["geoObject.addon.balloon"]}
@@ -39,8 +45,7 @@ export default function ComponentMap(props) {
             <div>
             ${
                 repeatPonts.map(x=>{
-                  repeatIds.push(x.id)
-                    count+=1
+                repeatIds.push(x.id);
                     return (indxesVisiblePlacemark.includes(x.id)?`<div>Наполненность ${repeatPonts.lenght==1?null:`контейнер${x.id}`}:${x.percent}%</div>`:null)
                 }).join('')
             }

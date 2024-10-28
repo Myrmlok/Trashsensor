@@ -45,6 +45,7 @@ export function ComponentTable(props) {
     const columns=[{
       dataField:'id',
       text:'ID'
+      
     },
     {
       dataField:'name',
